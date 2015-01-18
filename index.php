@@ -7,8 +7,10 @@
 	// require_once 'post.php'; 
 	// $sqli = new SQLI('127.0.0.1', 'root', '' , 'sqli_demo'); // You'll want to use a config file so you don't need reinstantiate every single time. This is for demo. 
 	// throw new Exception("Uncaught exception wowowwowowo"); 
-	$asdf = new World()
+	// $asdf = new World()
 	
+	var_dump( error_reporting() );
+
 	die('asdfWorld3');
 ?>
 
