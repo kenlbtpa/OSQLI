@@ -1,0 +1,132 @@
+a.styleless , a.styleless:hover
+{
+	color:inherit;
+}
+
+body{
+	background-color: #222222; 
+	color:#eee;
+}
+
+.navbar{
+	background-color: #2a2a2a ! important; 
+	color:#787878;
+}
+
+.navbar .navbar-nav{
+	font-family:'Source Sans Pro Regular',Helvetica,Arial,sans-serif !important;
+	font-size:16px !important;
+}
+
+.navbar-nav > li > a{
+	padding-top:16px;
+	padding-bottom:16px;
+	line-height:22px;
+	background-color:transparent !important;
+}
+
+.container{
+	margin-left:12%;
+	margin-right:12%;
+	width:76%;
+}
+
+.forumwrap
+{
+	padding:12px;
+	margin:0;
+
+	/*background-image: -webkit-repeating-linear-gradient(135deg, rgba(26,26,26,.5), rgba(26,26,26,.5) 2.4px, #111 2px, #111 2px, rgba(26,26,26,.5) 4px);*/
+/*	background-image: -moz-repeating-linear-gradient(135deg, rgba(0,0,0,.3), rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+	background-image: -o-repeating-linear-gradient(135deg, rgba(0,0,0,.3), rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+	background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.3), rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);*/
+	background: url('stripes.png');
+
+/*	-webkit-background-size: 4px 4px;
+	-moz-background-size: 4px 4px;
+	background-size: 4px 4px;
+*/	
+	border-color:#111;
+	border-width: thin;
+	padding-bottom:0;
+}
+
+.container-fluid
+{
+	background-color:#222;
+	margin:16px;
+}
+
+.forumwrap > .contenthead
+{
+	margin-left: 1%;
+	margin-right:1%;
+}
+
+.forumwrap > .contenthead > *:first-child
+{
+	font-weight: bold;
+}
+
+.forumwrap > .contenthead > *:last-child
+{
+	color:#6a6a6a;
+}
+
+.forumwrap > .contentwrap
+{
+	background-color:#222;
+	margin:8px;
+	padding-top:16px;
+	padding-bottom:10px;
+	padding-left:30px;
+	padding-right:30px;
+	color: #787878;
+	line-height: 1.8; 
+}
+
+.post .post-head
+{
+	background-color:#2a2a2a;
+	padding-left:0.8%;
+	padding-right:0.8%;	
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	font-size:16px;
+	font-weight:bolder;
+	color:#ddd;
+	line-height:1.9;
+}
+
+.post .post-head *:last-child
+{
+	margin-top:3px;
+	font-size:11px;
+	color:#999;
+
+}
+
+.post .post-content 
+{
+	background-color:#1b1b1b;
+	padding-top:4%;
+	padding-left:2%;
+	padding-right:2%;	
+	padding-bottom:0.6%;
+	font: normal 13px helvetica,arial,sans-serif;
+}
+
+.outform form
+{
+	line-height:2;
+}
+
+.subtext
+{
+	font-size:12px;
+}
+
+table.table tr > td
+{
+	border-color:transparent;
+}

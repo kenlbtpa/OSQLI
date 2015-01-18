@@ -5,25 +5,27 @@
 		public $mysqli; 
 		public $models; 
 
-		public function __construct()
+		public function __construct($SQL_HOST, $SQL_USER , $SQL_PASS , $SQL_DB)
 		{
 			/*There are no use for all your gimmicks.*/
-			$mysqli = new Mysqli( SQL_HOST , SQL_USER , SQL_PASS ); 
+			$mysqli = new Mysqli( $SQL_HOST , $SQL_USER , $SQL_PASS ); 
 
 			if ($mysqli->connect_errno){
 				throw new Excpetion("Could not initiate connection to mysql server.".$mysqli->connection_errno);
 			}
 
-			if( !$mysqli->select_db(SQL_DB) ){
-				if( !$mysqli->query( 'CREATE DATABASE '.SQL_DB ) )
+			if( !$mysqli->select_db( $SQL_DB ) ){
+				if( !$mysqli->query( 'CREATE DATABASE '.$SQL_DB ) )
 				{
 					throw new Exception("Could not create database(".$mysqli->error.")"); 
 				}
-				$mysqli->select_db(SQL_DB); 
+				$mysqli->select_db($SQL_DB); 
 			}
 
 			$this->mysqli = $mysqli; 
 			$this->models = []; 
+			$this->storeQuery = false; 
+			$this->storeCallback = null; 
 		}
 
 		public function prepareModel($class)
@@ -215,7 +217,7 @@
 		/*
 		* Returns an array of objects matching the suffix. If none is provided, returns all. 
 		*/
-		public function where($class , $suffix = null)
+		public function where($class , $suffix = null , $params = null)
 		{
 			$this->prepareModel($class); 
 			$model = $this->getModel($class);
@@ -227,12 +229,21 @@
 			$stmt = $mysqli->prepare($query); 
 			if( !$stmt ){ throw new Exception("Could not prepare ".__FUNCTION__."(".$mysqli->error.")"); }
 
+			if($params !== null){
+				$bindParams = []; 
+				$bindString = "";
+				foreach($params as $key => $param){ $bindString .= "s";  $bindParams[] = &$params[$key]; }
+				array_unshift($bindParams, $bindString);
+				call_user_func_array( array($stmt, "bind_param") , $bindParams); 
+			}
+
 			$bindResults = [];
 			foreach($model->modelFields as $key => $field ) { $name = $field->fieldName; $bindResults[] = &$$name; }
 			call_user_func_array( array($stmt, "bind_result") , $bindResults); 
 
 			if( !$stmt->execute() ){ throw new Exception("Could not execute ".__FUNCTION__."(".$stmt->error.")"); }
 
+			$list = []; 
 			while($stmt->fetch()) {
 				$object = $model->buildFromBindResults($bindResults); 
 				$error =[]; 
@@ -241,6 +252,30 @@
 			}
 			return $list;
 		}
+
+		public function query($query, $params = null, $MYSQLI_TYPE = MYSQLI_NUM)
+		{
+			$mysqli = $this->mysqli; 
+			$stmt = $mysqli->prepare($query); 
+			if(!$stmt){ throw new Exception("Could not prepare ".__FUNCTION__."(".$mysqli->error.")"); }
+
+			if($params !== null){
+				$bindParams = []; 
+				$bindString = "";
+				foreach($params as $key => $param){ $bindString .= "s";  $bindParams[] = &$params[$key]; }
+				array_unshift($bindParams, $bindString);
+				call_user_func_array( array($stmt, "bind_param") , $bindParams); 
+			}
+			;
+			if( !$stmt->execute() ){ throw new Exception("Could not execute ".__FUNCTION__."(".$stmt->error.")"); }
+			$result = $stmt->get_result(); 
+
+			$results = array(); 
+			while($data = $result->fetch_array($MYSQLI_TYPE)){ 
+				$results[] = $data;
+			}				
+			return $results;	
+		}
 	}
 
 	/*
@@ -248,11 +283,11 @@
 	*/
 	function sqli_makeClassGETParams($class)
 	{
-		$GETParams = "";
+		$GETParams = ""; $tableName = "$class::$TABLE_NAME"; 
 		foreach($class::$TABLE_FIELDS as $key => $field)
 		{
 			$fieldName = $field[0]; 
-			$GETParams .= "`$fieldName`"; 
+			$GETParams .= "`$tableName`.`$fieldName`"; 
 			if( $key !== count( $class::$TABLE_FIELDS ) - 1 ){ $GETParams .= ' , '; }
 		}
 		return $GETParams; 
@@ -346,7 +381,8 @@
 					referenceBind($this->primaryField, $modelField); 
 				}
 			}
-			$this->primaryField = self::getField($class::$PRIMARY_KEY); 
+			if( property_exists($class, 'PRIMARY_KEY') )
+				$this->primaryField = self::getField($class::$PRIMARY_KEY); 
 
 			$this->primaryField->isUnique=true;
 			$this->primaryField->isNotNull=true;
@@ -496,7 +532,7 @@
 			$getQuery = ""; $c = 0; 
 			foreach($this->modelFields as $key => $field)
 			{
-				$getQuery .= "`".stripcslashes($field->dbName)."`"; 
+				$getQuery .= "`".stripcslashes($this->tableName)."`.`".stripcslashes($field->dbName)."`"; 
 				if( $c++ !== count($this->modelFields) - 1 ){ $getQuery .= " , "; }				
 			}
 			return $getQuery;
