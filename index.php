@@ -2,11 +2,12 @@
 	ini_set ('display_errors', true);
 	error_reporting(E_ALL);
 
+	$var asdfadfadf
 	// require_once 'sqli.php'; 
 	// require_once 'thread.php'; 
 	// require_once 'post.php'; 
 	// $sqli = new SQLI('127.0.0.1', 'root', '' , 'sqli_demo'); // You'll want to use a config file so you don't need reinstantiate every single time. This is for demo. 
-	throw new Exception("Uncaught exception wowowwowowo"); 
+	// throw new Exception("Uncaught exception wowowwowowo"); 
 	die('asdfWorld2');
 ?>
 
