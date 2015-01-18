@@ -1,8 +1,7 @@
 <?php 
+	error_reporting(E_ALL | E_STRICT);
 	ini_set ('display_errors', true);
-	error_reporting(E_ALL);
 
-	$var asdfadfadf
 	// require_once 'sqli.php'; 
 	// require_once 'thread.php'; 
 	// require_once 'post.php'; 
