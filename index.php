@@ -1,5 +1,6 @@
-<?php
+<?php 
 	error_reporting(E_ALL);
+	throw new Exception("Holy cow an error"); 
 	require_once 'sqli.php'; 
 	require_once 'thread.php'; 
 	require_once 'post.php'; 
