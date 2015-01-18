@@ -1,4 +1,5 @@
 <?php
+	error_reporting(E_ALL);
 	require_once 'sqli.php'; 
 	require_once 'thread.php'; 
 	require_once 'post.php'; 
