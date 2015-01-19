@@ -10,7 +10,7 @@
 	// $asdf = new World()
 	
 	var_dump( error_reporting() );
-
+	throw new Exception("Wow Error");
 	die('asdfWorld3');
 ?>
 
