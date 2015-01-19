@@ -11,7 +11,7 @@
 	
 	// var_dump( error_reporting() );
 	// var_dump(phpinfo()); 
-
+	$asdf = 1
 	throw new Exception("Wow Error");
 	die('asdfWorld3');
 ?>
