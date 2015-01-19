@@ -9,7 +9,8 @@
 	// throw new Exception("Uncaught exception wowowwowowo"); 
 	// $asdf = new World()
 	
-	var_dump( error_reporting() );
+	// var_dump( error_reporting() );
+	var_dump(phpinfo()); 
 	throw new Exception("Wow Error");
 	die('asdfWorld3');
 ?>
