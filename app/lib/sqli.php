@@ -1,8 +1,7 @@
 <?php
 	
-	class SQLI
+	class OO_SQLI extends MySQLI
 	{
-		public $mysqli; 
 		public $models; 
 
 		public function __construct($SQL_HOST, $SQL_USER , $SQL_PASS , $SQL_DB)
@@ -11,7 +10,7 @@
 			$mysqli = new Mysqli( $SQL_HOST , $SQL_USER , $SQL_PASS ); 
 
 			if ($mysqli->connect_errno){
-				throw new Excpetion("Could not initiate connection to mysql server.".$mysqli->connection_errno);
+				throw new Exception("Could not initiate connection to mysql server.".$mysqli->connection_errno);
 			}
 
 			if( !$mysqli->select_db( $SQL_DB ) ){
@@ -275,6 +274,16 @@
 				$results[] = $data;
 			}				
 			return $results;	
+		}
+
+		public function getClassMakeParams($class){
+			$this->prepareModel($class); 
+			$model = $this->getModel($class);
+
+			$tableName = $model->tableName; 
+			$GETParams = $model->getParams(); 
+
+			return $GETParams; 
 		}
 	}
 

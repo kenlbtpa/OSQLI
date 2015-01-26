@@ -3,7 +3,7 @@
 class Post{
 
 	/*SQLI_PARAMETERS*/
-	public static $TABLE_NAME = "Post"; 
+	public static $TABLE_NAME = "post"; 
 	public static $TABLE_FIELDS = 
 	[
 		'id' => [ 'field_name' => 'id', 'primary_key' => true , 'auto_increment' =>true , "type" =>'int'] , 

@@ -1,0 +1,14 @@
+DirectoryIndex /SQLI/rerouter.php
+
+RewriteEngine On
+RewriteBase /SQLI/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ /SQLI/rerouter.php?uri=$1 [QSA]
+
+<Files .htaccess>
+	Order Allow,Deny
+	Deny from all
+</Files>
+

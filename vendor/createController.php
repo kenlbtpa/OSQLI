@@ -1,15 +1,8 @@
 <?php
 
-require_once __DIR__ .'/sqli.php'; 
-require_once __DIR__.'/thread.php'; 
-require_once __DIR__.'/post.php'; 
-require_once __DIR__.'/utils.php'; 
-
 session_start(); 
 
 try{
-
-	$sqli = new SQLI('127.0.0.1', 'root', '' , 'sqli_demo'); 
 
 	$create = getParam('create', null); 
 	if($create === null)throw new Exception("Improper form. Please contact admin.");

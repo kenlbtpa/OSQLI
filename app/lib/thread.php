@@ -3,7 +3,7 @@
 class Thread{
 
 	/*SQLI_PARAMETERS*/
-	public static $TABLE_NAME = "Thread"; 
+	public static $TABLE_NAME = "thread"; 
 	public static $TABLE_FIELDS = 
 	[
 		'id' => [ 'field_name' => 'id', 'primary_key' => true , 'auto_increment' =>true , "type" =>'int'] , 
