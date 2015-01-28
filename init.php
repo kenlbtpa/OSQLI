@@ -5,8 +5,8 @@
 	defined('SQL_PORT') or define('SQL_PORT', '3306');
 	defined('SQL_DB')   or define('SQL_DB', 'SQLIDEMO_DB');
 
-	define('SCRIPT_ROOT', 'http://localhost/SQLI');
-	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/SQLI');
+	define('SCRIPT_ROOT', 'http://localhost/projects/osqli-demo');
+	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . 'projects/osqli-demo');
 
 	/*Paths*/
 	defined('TEMPLATES_PATH') or define('TEMPLATES_PATH', DOCUMENT_ROOT . '/app/templates');
