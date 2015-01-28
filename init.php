@@ -13,13 +13,16 @@
 	defined('LIB_PATH') or define('LIB_PATH', DOCUMENT_ROOT . '/app/lib');
 	defined('VENDOR_PATH') or define('VENDOR_PATH', SCRIPT_ROOT . '/vendor/');
 
+	defined('PAGE_SIZE') or define('PAGE_SIZE', 25);
+
+
 	$scope = new stdClass(); 
 
 	require_once LIB_PATH . '/sqli.php'; 
-	require_once LIB_PATH .'/mysqli.php'; 
+	require_once LIB_PATH .'/myosqli.php'; 
 	require_once LIB_PATH . '/thread.php'; 	
 	require_once LIB_PATH . '/post.php'; 	
 	require_once LIB_PATH . '/utils.php'; 	
 
-	$sqli = new My_SQLI( SQL_HOST  , SQL_USER ,  SQL_PASS , SQL_DB ); 
+	$sqli = new My_OSQLI( SQL_HOST  , SQL_USER ,  SQL_PASS , SQL_DB ); 
 ?>

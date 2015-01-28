@@ -4,7 +4,8 @@
 	try{
 		$id = getParam('id' , null); 
 		if($id === null){ throw new Exception("You need to select a thread."); }
-		$thread = $sqli->get('Thread', $id); 
+		// $thread = $sqli->get('Thread', $id); 
+		$thread = $sqli->find('Thread' , ' where id = ? ' , [ $id ] ); 
 	}
 	catch(Exception $e){
 		die($e->getMessage()); 

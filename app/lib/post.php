@@ -19,13 +19,23 @@ class Post{
 	public $content; 
 	public $created_date; 
 
-	public function __constructor($id = null , $thread_id = null , $creator_name = null , $content = null , $created_date = null ){
+	public function __construct($id = null , $thread_id = null , $creator_name = null , $content = null , $created_date = null ){
 		$this->id = $id; 
 		$this->thread_id = $thread_id; 		
 		$this->creator_name = $creator_name; 		
 		$this->content = $content; 		
 		$this->created_date = $created_date; 		
 	}
+
+	public static function OSQLI_Factory( $id, $thread_id , $creator_name , $content , $created_date = null ){
+		
+		$created_name = htmlentities($creator_name); 
+		$content = htmlentities($content); 
+		$created_date = $created_date === null ? null : htmlentities($created_date); 
+		$post = new Post( $id , $thread_id , $creator_name , $content , $created_date ); 
+		return $post;
+	}
+
 
 }; 
 

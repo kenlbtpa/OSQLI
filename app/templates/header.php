@@ -8,15 +8,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="<?=SCRIPT_ROOT?>/index.php">Home</a></li>
-            <li><a href="<?=SCRIPT_ROOT?>/about.php">About</a></li>
-            <li><a href="<?=SCRIPT_ROOT?>/contacts.php">Contact</a></li>
+            <li class="active"><a href="<?=SCRIPT_ROOT?>/index">Home</a></li>
+            <li><a href="<?=SCRIPT_ROOT?>/about">About</a></li>
+            <li><a href="<?=SCRIPT_ROOT?>/contacts">Contact</a></li>
           </ul>
-      <form class="navbar-form navbar-right col-md-pull-2" role="search">
+      <form class="navbar-form navbar-right col-md-pull-2" action="search" role="search">
         <div class="form-group">
-          <form action='search' method='get'>
             <input type="text" class="form-control" name='query' placeholder="Search Threads">
-          </form>
+            <button class='hidden' ></button>
         </div>
       </form>
         </div>

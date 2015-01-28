@@ -25,6 +25,15 @@ class Thread{
 		$this->title = $title; 
 		$this->created_date = $created_date; 
 	}
+
+	public static function OSQLI_Factory( $id , $creator_name , $title , $created_date = null ){
+		
+		$created_name = htmlentities($creator_name); 
+		$title = htmlentities($title); 
+		$created_date = $created_date === null ? null : htmlentities($created_date); 
+
+		return new Thread( $id , $creator_name , $title , $created_date ); 
+	}
 }; 
 
 

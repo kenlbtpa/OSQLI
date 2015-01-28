@@ -1,2 +1,5 @@
-<h1>TEST</h1>
-<?php var_dump($_GET) ?><h1>TEST</h1>
+<?php
+	
+	print_r( $sqli->exec( 'select name from thread where id = ?' , [1] , MYSQLI_ASSOC ) ); 
+	// var_dump($thread); 
+?>

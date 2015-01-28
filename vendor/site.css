@@ -130,3 +130,32 @@ table.table tr > td
 {
 	border-color:transparent;
 }
+
+.pageanchors
+{
+	margin:0;
+	padding:0;
+	text-align:center;
+	width:22px;
+	background-color:#101010;
+	border-left:1px solid #222;	
+	border-right:1px solid #222;	
+}
+
+.pageanchors.active{ font-weight: bold; text-decoration: underline }
+
+.pageanchors >  a
+{
+	/*text-decoration: none;*/
+}
+
+.pageanchors:hover
+{
+	color:black;
+	background-color: #337ab7; 
+	text-decoration: underline;
+}
+
+
+
+

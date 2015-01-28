@@ -1,27 +1,27 @@
 <?php
 	
-	class OO_SQLI extends MySQLI
+	class O_SQLI extends MySQLI
 	{
+		// public $mysqli; 
 		public $models; 
 
 		public function __construct($SQL_HOST, $SQL_USER , $SQL_PASS , $SQL_DB)
 		{
 			/*There are no use for all your gimmicks.*/
-			$mysqli = new Mysqli( $SQL_HOST , $SQL_USER , $SQL_PASS ); 
+			parent::__construct( $SQL_HOST , $SQL_USER , $SQL_PASS ); 
 
-			if ($mysqli->connect_errno){
-				throw new Exception("Could not initiate connection to mysql server.".$mysqli->connection_errno);
+			if ($this->connect_errno){
+				throw new Exception("Could not initiate connection to mysql server.".$this->connection_errno);
 			}
 
-			if( !$mysqli->select_db( $SQL_DB ) ){
-				if( !$mysqli->query( 'CREATE DATABASE '.$SQL_DB ) )
+			if( !$this->select_db( $SQL_DB ) ){
+				if( !$this->query( 'CREATE DATABASE '.$SQL_DB ) )
 				{
-					throw new Exception("Could not create database(".$mysqli->error.")"); 
+					throw new Exception("Could not create database(".$this->error.")"); 
 				}
-				$mysqli->select_db($SQL_DB); 
+				$this->select_db($SQL_DB); 
 			}
 
-			$this->mysqli = $mysqli; 
 			$this->models = []; 
 			$this->storeQuery = false; 
 			$this->storeCallback = null; 
@@ -56,7 +56,7 @@
 			$this->prepareModel(get_class($object)); 
 			$model = $this->getModel(get_class($object));
 
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 			$class = get_class($object); 
 			$tableName = $model->tableName; 
 			$primaryField = $model->primaryField; 
@@ -80,7 +80,7 @@
 			$this->prepareModel(get_class($object)); 
 			$model = $this->getModel(get_class($object));
 
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 
 			$class = get_class($object); 
 			$tableName = $model->tableName; 
@@ -117,7 +117,6 @@
 			"INSERT INTO `$tableName` ( $paramString ) VALUES( $valueString ) ON DUPLICATE KEY UPDATE    
 			$setString"; 
 
-
 			if( $mysqli->query($query) === false )
 			{
 				throw new Exception("Could not query ".__FUNCTION__."(".$mysqli->error.")"); 
@@ -134,7 +133,7 @@
 			$this->prepareModel($class); 
 			$model = $this->getModel($class);
 
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 			$tableName = $model->tableName; 
 			$GETParams = $model->getParams(); 
 			$primaryKey = $model->primaryField->dbName; 
@@ -160,58 +159,48 @@
 		}
 
 		/*
-		* Returns the first object matching 
+		* Returns the first object matching  , returns null if no match.
 		*/
-		public function find($class , $suffix = null)
+		public function find($class , $suffix = null , $params = null)
+		{
+			$res = $this->where($class, $suffix, $params); 
+
+			return count($res) === 0 ? null : $res[0];
+		}
+
+		/*
+		* Counts the number of objects in the database that matches the constraints. 
+		*/
+		public function count($class , $suffix = null , $params = null)
 		{
 			$this->prepareModel($class); 
 			$model = $this->getModel($class);
 
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 			$tableName = $model->tableName; 
 			$GETParams = $model->getParams(); 
-			$primaryKey = $model->primaryField->dbName; 
-			if(is_array($suffix)){
-				$sufwhere = isset($suffix['where']) ? $suffix['where'] : $suffix[0]; 
-				$query = "SELECT $GETParams from `$tableName` where $sufwhere ; ";
-			}
-			else
-			{
-				$query = "SELECT $GETParams from `$tableName` $suffix ; ";
-			}
-			
+			$query = "SELECT count(*) from `$tableName` $suffix ";
+
 			$stmt = $mysqli->prepare($query); 
 			if( !$stmt ){ throw new Exception("Could not prepare ".__FUNCTION__."(".$mysqli->error.")"); }
-			
-			$bindParams = []; 
-			if( is_array($suffix) )
-			{
-				$sufwhere = isset($suffix['where']) ? $suffix['where'] : $suffix[0]; 
-				$sufparams = isset($suffix['params']) ? $suffix['params'] : $suffix[1];
-				if( false !== stripos( $sufwhere , '?' ) ){
-					$binds = substr_count( $sufwhere , '?' ); 
-					$bindString = str_repeat('s', $binds); 
-					$bindVars = []; foreach($sufparams as $key => $sp){ $bindVars[] = &$sufparams[$key]; }
-					$bindParams = $bindVars; 
-					array_unshift($bindParams , $bindString); 
-					call_user_func_array( array($stmt, "bind_param") , $bindParams); 								
-				}
+
+			if($params !== null){
+				$bindParams = []; 
+				$bindString = "";
+				foreach($params as $key => $param){ $bindString .= "s";  $bindParams[] = &$params[$key]; }
+				array_unshift($bindParams, $bindString);
+				call_user_func_array( array($stmt, "bind_param") , $bindParams); 
 			}
 
-			$bindResults = [];
-			foreach($model->modelFields as $key => $field ) { $name = $field->fieldName; $bindResults[] = &$$name; }
-			call_user_func_array( array($stmt, "bind_result") , $bindResults); 
+			$stmt->bind_result( $count );
 
 			if( !$stmt->execute() ){ throw new Exception("Could not execute ".__FUNCTION__."(".$stmt->error.")"); }
 
-			if($stmt->fetch()) {
-				$object = $model->buildFromBindResults($bindResults); 
-				$error =[]; 
-				if( !$model->validateFromDatabaseTransaction($object, $error) ){ $error['object']=$object; throw new Exception(json_encode($error)); }
-				return $object; 
-			}
-			return false;
+			$stmt->fetch(); 
+
+			return $count === null ? 0 : $count;
 		}
+
 
 		/*
 		* Returns an array of objects matching the suffix. If none is provided, returns all. 
@@ -221,10 +210,11 @@
 			$this->prepareModel($class); 
 			$model = $this->getModel($class);
 
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 			$tableName = $model->tableName; 
 			$GETParams = $model->getParams(); 
-			$query = "SELECT $GETParams from `$tableName` $suffix ; ";
+			$query = "SELECT $GETParams from `$tableName` $suffix ";
+
 			$stmt = $mysqli->prepare($query); 
 			if( !$stmt ){ throw new Exception("Could not prepare ".__FUNCTION__."(".$mysqli->error.")"); }
 
@@ -252,9 +242,9 @@
 			return $list;
 		}
 
-		public function query($query, $params = null, $MYSQLI_TYPE = MYSQLI_NUM)
+		public function exec($query, $params = null, $MYSQLI_TYPE = MYSQLI_NUM)
 		{
-			$mysqli = $this->mysqli; 
+			$mysqli = $this; 
 			$stmt = $mysqli->prepare($query); 
 			if(!$stmt){ throw new Exception("Could not prepare ".__FUNCTION__."(".$mysqli->error.")"); }
 
@@ -284,6 +274,20 @@
 			$GETParams = $model->getParams(); 
 
 			return $GETParams; 
+		}
+
+		public function getClassTable($class){
+			$this->prepareModel($class); 
+			$model = $this->getModel($class);
+			$tableName = $model->tableName; 
+			return $tableName; 			
+		}
+
+		public function getClassPrimaryKey($class){
+			$this->prepareModel($class); 
+			$model = $this->getModel($class);
+			$key = $model->getPrimaryKey(); 
+			return $key;
 		}
 	}
 
@@ -522,14 +526,7 @@
 		*/
 		public function buildFromBindResults($bindResults)
 		{
-			$obj = new $this->classModel;
-			$c = 0; 
-			foreach($this->modelFields as $key => $field)
-			{
-				$result = $bindResults[$c++];
-				$fieldName = $field->fieldName; 
-				$obj->$fieldName = $result; 
-			}
+			$obj = forward_static_call_array( array($this->classModel , 'OSQLI_Factory'),  $bindResults );
 			return $obj;
 		}
 

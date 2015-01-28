@@ -1,20 +1,29 @@
 <?php 
 	$scope->title = 'SQLI DEMO INDEX'; 
+
+	try{
+		$page = getParam('page', 1); 
+		$threads = $sqli->where('Thread' , 'limit ? , ?' , [ ( ( $page - 1 ) * PAGE_SIZE ) , PAGE_SIZE ]); 
+
+		$searchCount = $sqli->count('Thread'); 
+		// $threads = array_splice($threads, ( ( $page - 1 ) * PAGE_SIZE )  , PAGE_SIZE ); 
+
+		$totalPages = ceil( $searchCount / PAGE_SIZE ); 
+
+		$threadIds = array_map( function($thread){ return $thread->id; } , $threads ); 
+		$postCounts = $sqli->getThreadReplies( $threadIds ); 
+		$posts = $sqli->getLastThreadPost( $threadIds );
+	}
+	catch(Exception $e){
+		die($e->getMessage()); 
+	}
+
 ?>
 	<?php ob_start(); ?>
     <div class='container'>
     	<div class='container-fluid forumwrap'>
 		  	<div class='contentwrap' >
 	  			<!-- Threads Goes Here. -->
-	  			<?php 
-	  				$threads = $sqli->where( 'Thread' ); 
-	  				$threadCount = count($threads); 
-	  				$postCounts = $sqli->query("select t.id , count(p.id) total from post p right join thread t on p.tid = t.id group by t.id" , null , MYSQLI_ASSOC ); 
-
-	  				$quotes = ""; $tidArray = []; 
-	  				foreach($threads as $key => $thread){ $quotes .= '?'; $tidArray[] = $thread->id; if($key < count($threads)-1){ $quotes .= " , "; } }
-	  				$posts = $sqli->where('Post', "inner join (select post.* from post inner join thread on post.tid = thread.id order by post.created_date desc ) as res on post.id = res.id group by post.tid; " );
-  				?>
 	  			<table class='table'>
 	  			<?php foreach($threads as $key => $thread): ?>	  				
 	  				<tr >
@@ -48,6 +57,23 @@
 					</form>
 				</div>				
 			</div> 
+
+		  	<div class='contentwrap'>
+				<div class='row' >
+					<div style='position:relative;left:48%;right:56%;' >
+						<a href='<?=SCRIPT_ROOT?>/index?page=1' class='styleless'> <span class='col-md-1 pageanchors'> &lt;&lt; </span> </a>
+						<a href='<?=SCRIPT_ROOT?>/index?page=<?=max(1,$page-1)?>' class='styleless'> <span class='col-md-1 pageanchors'> &lt; </span> </a>
+						<?php for($i = max(1, $page - 3) ; $i < min( $totalPages + 1, $page + 4); $i++ ): ?>
+							<a href='<?=SCRIPT_ROOT?>/index?page=<?=$i?>' class='styleless'>
+								<span class='col-md-1 pageanchors <?php if($i == $page ) echo "active"; ?> '> <?=$i?> </span>
+							</a>
+						<?php endfor; ?>
+						<a href='<?=SCRIPT_ROOT?>/index?page=<?=min($totalPages,$page+1)?>' class='styleless'> <span class='col-md-1 pageanchors'> &gt; </span> </a>
+						<a href='<?=SCRIPT_ROOT?>/index?page=<?=$totalPages?>' class='styleless'> <span class='col-md-1 pageanchors'> &gt;&gt; </span> </a>
+					</div>
+				</div>  
+		  	</div>
+
     	</div>
     </div>	
     <?php $scope->content = ob_get_contents(); ob_end_clean(); ?>
