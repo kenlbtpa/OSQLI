@@ -89,7 +89,7 @@ O_SQLI Functions
 --------------------
 ### o_sqli.exists($object)
  Takes in an object and checks if the primary key exists in the database.   
-  ### Sample Code
+### Sample Code
 ```PHP
 $thread = new Thread(1 , "Guess Poster" , "Hobbies" , null );
 var_dump( $osqli->exists($thread) ); 
@@ -101,8 +101,8 @@ bool(false) // does not exist yet.
 
 ### o_sqli.save($object)
  If the object does not exist in the database, insert into database. If the object does exist in the database, update the record.  
-        ###Thread with id=1 does not exist in table `Thread`. 
 ```PHP
+###Thread with id=1 does not exist in table `Thread`. 
 $thread = new Thread(1 , "Guess Poster" , "Hello World!" , null );
 $osqli->save($thread); //Thread is created and inserted into the database.
 ```
