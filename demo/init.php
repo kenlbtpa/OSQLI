@@ -5,8 +5,8 @@
 	defined('SQL_PORT') or define('SQL_PORT', '3306');
 	defined('SQL_DB')   or define('SQL_DB', 'sqli_demo');
 
-	define('SCRIPT_ROOT', 'http://localhost/osqli-demo');
-	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/osqli-demo');
+	define('SCRIPT_ROOT', 'http://localhost/osqli-demo/demo'); // this should be the path of your htdocs or wamp.
+	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/osqli-demo/demo'); // same as above. 
 
 	/*Paths*/
 	defined('TEMPLATES_PATH') or define('TEMPLATES_PATH', DOCUMENT_ROOT . '/app/templates');

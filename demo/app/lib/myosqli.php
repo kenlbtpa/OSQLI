@@ -1,6 +1,12 @@
 <?php
 
 	class My_OSQLI extends O_SQLI{
+
+		/*
+			This class is to demonstrate how to add additional functions to O_SQLI. 
+		*/
+
+
 		public function searchThreads($query, $limit = 999, $offset = 0){
 			return $this->where('Thread', 'where title like ?' ,  [ "%$query%"] ); 
 		}
