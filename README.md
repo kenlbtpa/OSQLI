@@ -17,6 +17,7 @@ $threadBuild = $_POST;
 $thread = new Thread( null , "Sample Creator" , "Sample Title" ); // Creates a Thread Object with no id. 
 $res = $sqli->save($thread); // O_SQLI will proceed to insert the thread object into the database. 
 ```
+
 O_SQLI Usage
 --------------------
 
