@@ -1,12 +1,12 @@
 <?php
-	defined('SQL_USER') or define('SQL_USER', "tinkerman");
-	defined('SQL_PASS') or define('SQL_PASS', "tinkathon!1909" );
-	defined('SQL_HOST') or define('SQL_HOST', "dbinst.cavyzyys1fuy.us-west-2.rds.amazonaws.com:3306");
+	defined('SQL_USER') or define('SQL_USER', "root");
+	defined('SQL_PASS') or define('SQL_PASS', "" );
+	defined('SQL_HOST') or define('SQL_HOST', "localhost");
 	defined('SQL_PORT') or define('SQL_PORT', '3306');
-	defined('SQL_DB')   or define('SQL_DB', 'SQLIDEMO_DB');
+	defined('SQL_DB')   or define('SQL_DB', 'sqli_demo');
 
-	define('SCRIPT_ROOT', 'http://localhost/projects/osqli-demo');
-	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . 'projects/osqli-demo');
+	define('SCRIPT_ROOT', 'http://localhost/osqli-demo');
+	define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/osqli-demo');
 
 	/*Paths*/
 	defined('TEMPLATES_PATH') or define('TEMPLATES_PATH', DOCUMENT_ROOT . '/app/templates');

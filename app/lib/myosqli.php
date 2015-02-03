@@ -6,6 +6,7 @@
 		}
 
 		public function getThreadReplies($threadIds){
+			if( count($threadIds) === 0 ) return array();
 			$threadKey = $this->getClassPrimaryKey('Thread'); 
 			$postKey = $this->getClassPrimaryKey('Post'); 
 			$threadTable = $this->getClassTable('Thread'); 
@@ -22,6 +23,7 @@
 		}
 
 		public function getLastThreadPost($threadIds){
+			if( count($threadIds) === 0 ) return array();
 
 			$threadKey = $this->getClassPrimaryKey('Thread'); 
 			$postKey = $this->getClassPrimaryKey('Post'); 

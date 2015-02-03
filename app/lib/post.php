@@ -2,6 +2,19 @@
 
 class Post{
 
+	/*
+	MySQL Table Parameters
+	create table post( 
+		id int primary key auto_increment , 
+		tid int not null , 
+		name varchar(2555) not null , 
+		content varchar(25555) not null , 
+		created_date datetime not null default current_timestamp, 
+		foreign key (tid) references Thread(id)
+	); 
+	*/
+
+
 	/*SQLI_PARAMETERS*/
 	public static $TABLE_NAME = "post"; 
 	public static $TABLE_FIELDS = 

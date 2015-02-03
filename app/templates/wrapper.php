@@ -12,6 +12,6 @@
   </head>
   <body>
   	<?php require_once TEMPLATES_PATH . '/header.php'; ?>
-  	<?= $scope->content; ?>
+  	<?php require_once TEMPLATES_PATH . "/$content_path"; ?>
   </body>
 </html>

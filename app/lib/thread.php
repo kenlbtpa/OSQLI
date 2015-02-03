@@ -2,6 +2,12 @@
 
 class Thread{
 
+	/*
+	MySQL Table Parameters
+	create table thread( id int primary key auto_increment , name varchar(2555) not null , title varchar(2555) not null , created_date datetime not null default current_timestamp ); 
+	*/
+
+
 	/*SQLI_PARAMETERS*/
 	public static $TABLE_NAME = "thread"; 
 	public static $TABLE_FIELDS = 
