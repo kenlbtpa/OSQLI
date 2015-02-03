@@ -12,7 +12,7 @@ PHP 5.4
 O_SQLI Sample Usage
 --------------------
 ```PHP
-$sqli = new O_SQLI( ... ); // fill in your mysql connection information. 
+$sqli = new O_SQLI( /*...*/ ); // fill in your mysql connection information. 
 $threadBuild = $_POST;
 $thread = new Thread( null , "Sample Creator" , "Sample Title" ); // Creates a Thread Object with no id. 
 $res = $sqli->save($thread); // O_SQLI will proceed to insert the thread object into the database. 
@@ -45,7 +45,7 @@ public static $TABLE_FIELDS =
 ];    
 ```
 
-  ##### field_name
+  #### field_name
   Specifies the name of the field in the PHP object. 
 
   ##### primary_key
