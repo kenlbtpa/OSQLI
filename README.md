@@ -46,24 +46,24 @@ public static $TABLE_FIELDS =
 ```
 
 ##### field_name
-Specifies the name of the field in the PHP object. 
+  Specifies the name of the field in the PHP object. 
 
-  ##### primary_key
+##### primary_key
   Specifies if the field is a primary key. 
 
-  ##### not_null
+##### not_null
   Specifies if the field is not null. This is a type of constraint.
 
-  ##### not_empty
+##### not_empty
   Specifies if the field is not empty. This is a type of constraint. 
 
-  ##### verify_to
+##### verify_to
   Checks if the constraints apply to the object. If not, an error will be returned. This only applies when an object is being passed to the database. 
 
-  ##### verify_from
+##### verify_from
   Checks if the constraints apply to the object. If not, an error will be returned. This only applies when an fields is fetched from the database, successfully built into an object. Then the verification occurs. 
 
-  ##### verify
+##### verify
   Checks if the constraints apply to the object. If not, an error will be returned. This function is equivalent to verify_to and verify_from
 
 
