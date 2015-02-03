@@ -177,7 +177,7 @@ int(1)
 ### o_sqli.exec($query, $params = null , $MYSQLI_TYPE = MYSQLI_NUM): 
  Executes the query. You may use params to supply data to parameters if you're using mysqli_prepare syntax. 
  $MYSQLI_TYPE determines the type of array that will be returned. 
-  ### Sample Code
+### Sample Code
 ```PHP
 var_dump( $osqli->exec( 'select name from Thread where id = ?' , [1] , MYSQLI_ASSOC ) ); 
 ```  
