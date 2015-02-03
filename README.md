@@ -23,11 +23,9 @@ O_SQLI Usage
 
 ### Instantiating O_SQLI Object. 
  O_SQLI is an extension of MySQLI. Instantiating is the same. 
-        $sqli = new O_SQLI(SQL_HOST, SQL_USER , SQL_PASS , SQL_DB); 
-
-### Instantiating O_SQLI Object. 
- O_SQLI is an extension of MySQLI. Instantiating is the same. 
-        $sqli = new O_SQLI(SQL_HOST, SQL_USER , SQL_PASS , SQL_DB); 
+```PHP
+$sqli = new O_SQLI(SQL_HOST, SQL_USER , SQL_PASS , SQL_DB); 
+```
 
 
 ### Setting up an object for O_SQLI
@@ -71,14 +69,16 @@ public static $TABLE_FIELDS =
 
   You will also need a Factory Class. This function specifies O_SQLI how to build the objects after retrieving from database. When sending an object to the database from O_SQLI, you may use the default constructor but when an object is being built from the fields retrieved from the database the factory function is used. 
 
-        public static function OSQLI_Factory( $id , $creator_name , $title , $created_date = null ){
-          
-          $created_name = htmlentities($creator_name); 
-          $title = htmlentities($title); 
-          $created_date = $created_date === null ? null : htmlentities($created_date); 
+```PHP
+public static function OSQLI_Factory( $id , $creator_name , $title , $created_date = null ){
+  
+  $created_name = htmlentities($creator_name); 
+  $title = htmlentities($title); 
+  $created_date = $created_date === null ? null : htmlentities($created_date); 
 
-          return new Thread( $id , $creator_name , $title , $created_date ); 
-        }
+  return new Thread( $id , $creator_name , $title , $created_date ); 
+}
+```
 
 DEMO
 --------------------
@@ -130,7 +130,7 @@ object(Thread)[12]
  Returns a list of objects that match that match the suffix. If the suffix uses mysqli_prepare marks "?" , then use supply its respective data via params. 
   ### Sample Code
 ```PHP  
-        var_dump( $osqli->where('Thread', 'where id in ( ? , ? ) group by id' , [1,2] ) ); 
+var_dump( $osqli->where('Thread', 'where id in ( ? , ? ) group by id' , [1,2] ) ); 
 ```
   ### Output
 ```
