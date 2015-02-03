@@ -114,7 +114,7 @@ $osqli->save($thread);
 
 ### o_sqli.get($className, $primaryKey , $suffix = null)
  Attempts to look for a object in the database that matches the primary key. Suffix can be used to provide additional search constraints on the transaction.   
-  ### Sample Code
+### Sample Code
 ```PHP
 var_dump( $osqli->get('Thread', 1 ) ); 
 ```
@@ -128,7 +128,7 @@ object(Thread)[12]
 ```
 ### o_sqli.where($className, $suffix = null , $params = null): 
  Returns a list of objects that match that match the suffix. If the suffix uses mysqli_prepare marks "?" , then use supply its respective data via params. 
-  ### Sample Code
+### Sample Code
 ```PHP  
 var_dump( $osqli->where('Thread', 'where id in ( ? , ? ) group by id' , [1,2] ) ); 
 ```
@@ -165,7 +165,7 @@ object(Thread)[12]
 ```
 ### o_sqli.count($className, $suffix = null , $params = null): 
  Counts the number of objects that matches the parameters. 
-  ### Sample Code
+### Sample Code
 ```PHP  
 var_dump( $osqli->count('Thread' ) ); 
 ```
