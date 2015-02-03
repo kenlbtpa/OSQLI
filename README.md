@@ -94,7 +94,7 @@ O_SQLI Functions
 $thread = new Thread(1 , "Guess Poster" , "Hobbies" , null );
 var_dump( $osqli->exists($thread) ); 
 ```
-  ### Output
+### Output  
 ```PHP
 bool(false) // does not exist yet. 
 ```
@@ -118,7 +118,7 @@ $osqli->save($thread);
 ```PHP
 var_dump( $osqli->get('Thread', 1 ) ); 
 ```
-  ### Output
+### Output
 ```
 object(Thread)[12]
     public 'id' => int 1
@@ -132,7 +132,7 @@ object(Thread)[12]
 ```PHP  
 var_dump( $osqli->where('Thread', 'where id in ( ? , ? ) group by id' , [1,2] ) ); 
 ```
-  ### Output
+### Output
 ```
 array (size=2)
   0 => 
@@ -155,7 +155,7 @@ array (size=2)
 ```PHP
 var_dump( $osqli->find('Thread', 'where id = ? ' , [1] ) ); 
 ```
-  ### Output
+### Output
 ```
 object(Thread)[12]
     public 'id' => int 1
@@ -169,7 +169,7 @@ object(Thread)[12]
 ```PHP  
 var_dump( $osqli->count('Thread' ) ); 
 ```
-  ### Output
+### Output
 ```
 int(1)
 ```
@@ -181,7 +181,7 @@ int(1)
 ```PHP
 var_dump( $osqli->exec( 'select name from Thread where id = ?' , [1] , MYSQLI_ASSOC ) ); 
 ```  
-  ### Output
+### Output
 ```PHP
 Array ( [0] => Array ( [name] => Guess Poster ) )
 ```
